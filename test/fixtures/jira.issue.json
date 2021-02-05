@@ -1,0 +1,190 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "10000",
+  "self": "https://murrayju.atlassian.net/rest/api/2/issue/10000",
+  "key": "TEST-1",
+  "properties": {},
+  "fields": {
+    "statuscategorychangedate": "2021-02-04T17:38:29.317-0700",
+    "issuetype": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/issuetype/10001",
+      "id": "10001",
+      "description": "Functionality or a feature expressed as a user goal.",
+      "iconUrl": "https://murrayju.atlassian.net/secure/viewavatar?size=medium&avatarId=10315&avatarType=issuetype",
+      "name": "Story",
+      "subtask": false,
+      "avatarId": 10315
+    },
+    "timespent": null,
+    "project": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/project/10000",
+      "id": "10000",
+      "key": "TEST",
+      "name": "test",
+      "projectTypeKey": "software",
+      "simplified": false,
+      "avatarUrls": {
+        "48x48": "https://murrayju.atlassian.net/secure/projectavatar?pid=10000&avatarId=10423",
+        "24x24": "https://murrayju.atlassian.net/secure/projectavatar?size=small&s=small&pid=10000&avatarId=10423",
+        "16x16": "https://murrayju.atlassian.net/secure/projectavatar?size=xsmall&s=xsmall&pid=10000&avatarId=10423",
+        "32x32": "https://murrayju.atlassian.net/secure/projectavatar?size=medium&s=medium&pid=10000&avatarId=10423"
+      }
+    },
+    "fixVersions": [],
+    "aggregatetimespent": null,
+    "resolution": null,
+    "customfield_10028": null,
+    "customfield_10029": null,
+    "resolutiondate": null,
+    "workratio": -1,
+    "watches": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/issue/TEST-1/watchers",
+      "watchCount": 1,
+      "isWatching": true
+    },
+    "issuerestriction": {
+      "issuerestrictions": {},
+      "shouldDisplay": false
+    },
+    "lastViewed": "2021-02-04T17:46:21.652-0700",
+    "created": "2021-02-04T17:25:19.950-0700",
+    "customfield_10020": null,
+    "customfield_10021": null,
+    "customfield_10022": null,
+    "priority": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/priority/3",
+      "iconUrl": "https://murrayju.atlassian.net/images/icons/priorities/medium.svg",
+      "name": "Medium",
+      "id": "3"
+    },
+    "customfield_10023": null,
+    "customfield_10024": null,
+    "customfield_10025": null,
+    "labels": [],
+    "customfield_10016": null,
+    "customfield_10017": null,
+    "customfield_10018": {
+      "hasEpicLinkFieldDependency": false,
+      "showField": false,
+      "nonEditableReason": {
+        "reason": "PLUGIN_LICENSE_ERROR",
+        "message": "The Parent Link is only available to Jira Premium users."
+      }
+    },
+    "customfield_10019": "0|hzzzzz:",
+    "aggregatetimeoriginalestimate": null,
+    "timeestimate": null,
+    "versions": [],
+    "issuelinks": [],
+    "assignee": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/user?accountId=557058%3A935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "accountId": "557058:935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "emailAddress": "justin@murrayju.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/32"
+      },
+      "displayName": "Justin Murray",
+      "active": true,
+      "timeZone": "America/New_York",
+      "accountType": "atlassian"
+    },
+    "updated": "2021-02-04T17:40:20.380-0700",
+    "status": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/status/3",
+      "description": "This issue is being actively worked on at the moment by the assignee.",
+      "iconUrl": "https://murrayju.atlassian.net/images/icons/statuses/inprogress.png",
+      "name": "In Progress",
+      "id": "3",
+      "statusCategory": {
+        "self": "https://murrayju.atlassian.net/rest/api/2/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "components": [],
+    "timeoriginalestimate": null,
+    "description": "This is of course just a test issue in a test project",
+    "customfield_10010": null,
+    "customfield_10014": null,
+    "timetracking": {},
+    "customfield_10015": null,
+    "customfield_10005": null,
+    "customfield_10006": null,
+    "customfield_10007": null,
+    "security": null,
+    "customfield_10008": null,
+    "aggregatetimeestimate": null,
+    "attachment": [],
+    "customfield_10009": null,
+    "summary": "Build a great new feature",
+    "creator": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/user?accountId=557058%3A935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "accountId": "557058:935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "emailAddress": "justin@murrayju.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/32"
+      },
+      "displayName": "Justin Murray",
+      "active": true,
+      "timeZone": "America/New_York",
+      "accountType": "atlassian"
+    },
+    "subtasks": [],
+    "reporter": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/user?accountId=557058%3A935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "accountId": "557058:935b8594-7fa0-4060-939f-fe2b1dff9b58",
+      "emailAddress": "justin@murrayju.com",
+      "avatarUrls": {
+        "48x48": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/48",
+        "24x24": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/24",
+        "16x16": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/16",
+        "32x32": "https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/557058:935b8594-7fa0-4060-939f-fe2b1dff9b58/98681952-f742-499b-ba71-adf572af2f3b/32"
+      },
+      "displayName": "Justin Murray",
+      "active": true,
+      "timeZone": "America/New_York",
+      "accountType": "atlassian"
+    },
+    "customfield_10000": "{pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={\"cachedValue\":{\"errors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":1,\"lastUpdated\":\"2021-02-04T22:41:48.000-0500\",\"stateCount\":1,\"state\":\"OPEN\",\"dataType\":\"pullrequest\",\"open\":true},\"byInstanceType\":{\"GitHub\":{\"count\":1,\"name\":\"GitHub\"}}}}},\"isStale\":true}}",
+    "aggregateprogress": {
+      "progress": 0,
+      "total": 0
+    },
+    "customfield_10001": null,
+    "customfield_10002": null,
+    "customfield_10003": null,
+    "customfield_10004": null,
+    "environment": null,
+    "duedate": null,
+    "progress": {
+      "progress": 0,
+      "total": 0
+    },
+    "votes": {
+      "self": "https://murrayju.atlassian.net/rest/api/2/issue/TEST-1/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "comment": {
+      "comments": [],
+      "self": "https://murrayju.atlassian.net/rest/api/2/issue/10000/comment",
+      "maxResults": 0,
+      "total": 0,
+      "startAt": 0
+    },
+    "worklog": {
+      "startAt": 0,
+      "maxResults": 20,
+      "total": 0,
+      "worklogs": []
+    }
+  }
+}

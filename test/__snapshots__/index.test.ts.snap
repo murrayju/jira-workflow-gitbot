@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Probot app creates a comment when an issue is opened 1`] = `
+Object {
+  "body": "Please create issues in [Jira](https://fake-jira).",
+}
+`;

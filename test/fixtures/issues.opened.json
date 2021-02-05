@@ -1,0 +1,18 @@
+{
+  "action": "opened",
+  "issue": {
+    "number": 1,
+    "user": {
+      "login": "testuser"
+    }
+  },
+  "repository": {
+    "name": "testing-things",
+    "owner": {
+      "login": "testuser"
+    }
+  },
+  "installation": {
+    "id": 2
+  }
+}
