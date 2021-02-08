@@ -7,7 +7,7 @@
     }
   },
   "repository": {
-    "name": "testing-things",
+    "name": "test-repo",
     "owner": {
       "login": "testuser"
     }

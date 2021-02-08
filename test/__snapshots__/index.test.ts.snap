@@ -5,3 +5,66 @@ Object {
   "body": "Please create issues in [Jira](https://fake-jira).",
 }
 `;
+
+exports[`Probot app creates a linking comment when a PR is created with valid issue 1`] = `
+Object {
+  "object": Object {
+    "title": "GitHub PR #1 - Create foo",
+    "url": "https://github.com/testuser/test-repo/pull/4",
+  },
+}
+`;
+
+exports[`Probot app creates a linking comment when a PR is created with valid issue 2`] = `
+Object {
+  "body": "Successfully linked this PR to Jira: [TEST-7](https://fake-jira/browse/TEST-7)",
+}
+`;
+
+exports[`Probot app creates a linking comment when a PR is created with valid issue 3`] = `
+Object {
+  "body": "
+
+<!-- probot = {\\"2\\":{\\"jira-issue\\":\\"TEST-7\\"}} -->",
+}
+`;
+
+exports[`Probot app creates a not found comment when a PR is created with invalid issue 1`] = `
+Object {
+  "body": "The specified issue \`TEST-99\` could not be found in Jira.",
+}
+`;
+
+exports[`Probot app creates a not found comment when a PR is created with invalid issue 2`] = `
+Object {
+  "body": "
+
+<!-- probot = {\\"2\\":{\\"jira-issue\\":\\"TEST-99\\"}} -->",
+}
+`;
+
+exports[`Probot app creates a warning comment if PR created with no issue specified 1`] = `
+Object {
+  "body": "Warning: no Jira issue is associated with this PR. Prefix the PR title with \`TEST-0:\`.",
+}
+`;
+
+exports[`Probot app creates a warning comment if PR created with no issue specified 2`] = `
+Object {
+  "body": "
+
+<!-- probot = {\\"2\\":{\\"jira-issue\\":\\"\\"}} -->",
+}
+`;
+
+exports[`Probot app when PR assigned, updates Jira assignee 1`] = `
+Object {
+  "accountId": "jiraAccount123",
+}
+`;
+
+exports[`Probot app when PR assigned, updates Jira assignee 2`] = `
+Object {
+  "body": "Jira ticket [TEST-1](https://fake-jira/browse/TEST-1) has been assigned to Mr. Test User",
+}
+`;

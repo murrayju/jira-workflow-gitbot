@@ -6,8 +6,9 @@ When using Jira as the issue tracker for a project in combination with using Git
 
 ## User Stories
 
+- [x] When an issue is created in GitHub, comment that issues should be created in Jira instead.
 - [x] When a PR title is prefixed with a Jira ticket number, the bot should write a comment to indicate that the PR has been linked with the Jira ticket. _This is a prerequisite for all subsequent stories._
-- [ ] When a PR is assigned to a user, the `Assignee` field on the Jira ticket should be updated to match.
+- [x] When a PR is assigned to a user, the `Assignee` field on the Jira ticket should be updated to match.
 - [ ] When a reviewer is added to a PR, the `Reviewer` field on the Jira ticket should be updated to include this user.
 - [ ] When a reviewer is removed from a PR, the `Reviewer` field on the Jira ticket should be updated to exclude this user.
 - [ ] When a reviewer requests changes, the Jira ticket should be transitioned back to `In Progress`

@@ -17,6 +17,7 @@
     "test": "tsc && jest"
   },
   "dependencies": {
+    "fs-extra": "^9.1.0",
     "jira-client": "^6.21.1",
     "node-fetch": "^2.6.1",
     "probot": "^11.0.1",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.0",
+    "@types/fs-extra": "^9.0.6",
     "@types/jest": "^26.0.19",
     "@types/jira-client": "^6.13.1",
     "@types/node": "^14.14.19",

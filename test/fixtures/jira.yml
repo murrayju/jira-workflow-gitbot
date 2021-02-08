@@ -1,0 +1,4 @@
+---
+jira:
+  projectKey: TEST
+  host: fake-jira
