@@ -17,7 +17,10 @@ export = (app: Probot) => {
       return;
     }
     // TODO: actually create the Jira issue and close the GitHub issue
-    await writeComment(context, `Please create issues in [Jira](${jira.url}).`);
+    await writeComment(
+      context,
+      `Please create issues in [Jira](${jira.url}/browse/${jira.projectKey}).`,
+    );
   });
 
   /**

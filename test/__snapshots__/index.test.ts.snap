@@ -2,7 +2,7 @@
 
 exports[`Probot app creates a comment when an issue is opened 1`] = `
 Object {
-  "body": "Please create issues in [Jira](https://fake-jira).",
+  "body": "Please create issues in [Jira](https://fake-jira/browse/TEST).",
 }
 `;
 
