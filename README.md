@@ -46,6 +46,15 @@ docker build -t jira-workflow-gitbot .
 docker run -e APP_ID=<app-id> -e PRIVATE_KEY=<pem-value> jira-workflow-gitbot
 ```
 
+## Resources
+* [Probot API documentation](https://probot.github.io/docs/)
+* [Jira REST API documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/)
+* [JiraApi library documentation](https://jira-node.github.io/class/src/jira.js~JiraApi.html)
+* [Jira basic auth info](https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/)
+* [GitHub webhook documentation](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#pull_request)
+* [GitHub Apps management](https://github.com/settings/apps/)
+* [GitHub REST API documentation](https://octokit.github.io/rest.js/v18#pulls)
+
 ## License
 
 [ISC](LICENSE) © 2021 Justin Murray <justin@murrayju.com>
