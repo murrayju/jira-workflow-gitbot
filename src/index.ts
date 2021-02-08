@@ -1,105 +1,29 @@
-import { Context, Probot } from 'probot';
-import JiraApi from 'jira-client';
-import fetch, { RequestInit } from 'node-fetch';
-import fs from 'fs-extra';
-const metadata = require('probot-metadata');
+import { Probot } from 'probot';
+import { logEvent, getJira, writeComment } from './probotHelpers';
 
-const metaKey_jiraIssue = 'jira-issue';
-
-const logEvent = async (context: Context) => {
-  context.log.debug(`${context.name}.${context.payload?.action}`);
-  if (context.log.level === 'debug') {
-    await fs.ensureDir('./log');
-    await fs.writeJson('./log/last_payload.json', context.payload);
-  }
-};
-
-const getJiraCfg = async (context: Context) => {
-  const defaults = {
-    host: '',
-    protocol: 'https',
-    projectKey: '',
-    apiVersion: 'latest',
-    userMap: {} as { [gitHubUser: string]: string },
-  };
-  const config = await context.config('jira.yml', {
-    jira: defaults,
-  });
-  return config?.jira || defaults;
-};
-
-const getJira = async (context: Context) => {
-  const { host, protocol, projectKey, apiVersion, ...rest } = await getJiraCfg(context);
-  if (!host) {
-    context.log.warn(`No Jira host defined for ${context.payload.repository.name}`);
-    return null;
-  }
-  if (!projectKey) {
-    context.log.warn(`No Jira projectKey defined for ${context.payload.repository.name}`);
-    return null;
-  }
-  const username = process.env.JIRA_USER;
-  const password = process.env.JIRA_PASS;
-  const api = new JiraApi({
-    host,
-    protocol,
-    username,
-    password,
-    apiVersion,
-  });
-
-  const url = `${protocol}://${host}`;
-
-  // sadly the JiraApi is incomplete, so here's a fetch wrapper
-  const fetchWrapper = (route: string, options?: RequestInit) =>
-    fetch(`${route.startsWith(url) ? route : `${url}/rest/api/${apiVersion}/${route}`}`, {
-      ...options,
-      headers: {
-        ...options?.headers,
-        Authorization: `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    }).then(async (r) => {
-      if (r.ok) {
-        if (r.status !== 204) {
-          return r.json();
-        }
-        return null;
-      }
-      throw new Error(`${r.status}: ${await r.text()}`);
-    });
-
-  return {
-    ...rest,
-    host,
-    protocol,
-    projectKey,
-    api,
-    url,
-    fetch: fetchWrapper,
-    issueLinkMd: (issue: string) => `[${issue}](${url}/browse/${issue})`,
-  };
-};
-
-const writeComment = async (context: Context, comment: string) =>
-  context.octokit.issues.createComment(
-    context.issue({
-      body: comment,
-    }),
-  );
-
+/**
+ * The Probot library acts as the entrypoint, and handles much of the application logic for us.
+ * Here we export a function, which is loaded by Probot as middleware.
+ */
 export = (app: Probot) => {
+  /**
+   * When an issue is opened, write a comment instructing the user to use Jira instead.
+   */
   app.on('issues.opened', async (context) => {
     await logEvent(context);
     const jira = await getJira(context);
     if (!jira) {
+      // Jira is not configured for this project, do nothing
       return;
     }
     // TODO: actually create the Jira issue and close the GitHub issue
     await writeComment(context, `Please create issues in [Jira](${jira.url}).`);
   });
 
+  /**
+   * When a PR is created/edited, check for a corresponding Jira issue key in the title.
+   * Comments are written with links when successful, or with error messages for failures or incorrect use.
+   */
   app.on(['pull_request.opened', 'pull_request.edited'], async (context) => {
     await logEvent(context);
     const {
@@ -112,14 +36,12 @@ export = (app: Probot) => {
     }
     const jira = await getJira(context);
     if (!jira) {
+      // Jira is not configured for this project, do nothing
       return;
     }
     const { title: prTitle, html_url: prUrl, number: prId } = context.payload.pull_request;
-    const [, matchedKey, prTitleText] =
-      prTitle.match(new RegExp(`^(${jira.projectKey}-\\d+):\\s*(.+)\\s*$`, 'i')) || [];
-    const detectedIssue = (matchedKey || '').toUpperCase();
-    const existingIssue =
-      action === 'opened' ? null : (await metadata(context).get(metaKey_jiraIssue)) || '';
+    const { issue: detectedIssue, description: prTitleText } = jira.parseTitle(prTitle);
+    const existingIssue = action === 'opened' ? null : await jira.getCachedIssue(context);
 
     if (detectedIssue === existingIssue) {
       // issue hasn't changed, nothing to do
@@ -179,43 +101,47 @@ export = (app: Probot) => {
       );
     }
 
-    // Record the change
-    await metadata(context).set(metaKey_jiraIssue, detectedIssue);
+    // Record the new issue in the metadata
+    await jira.setCachedIssue(context, detectedIssue);
   });
 
+  /**
+   * When a PR is assigned, update the linked Jira issue to match
+   */
   app.on('pull_request.assigned', async (context) => {
     await logEvent(context);
-    const { assignee } = context.payload.pull_request;
-    if (!assignee) {
-      app.log.warn('Unexpected, assignee is empty');
-      return;
-    }
-    const { login } = assignee;
+    const login = context.payload.pull_request.assignee?.login;
     if (!login) {
       app.log.warn('Unexpected, login is empty');
       return;
     }
-    app.log.info({ login });
 
-    const issue = (await metadata(context).get(metaKey_jiraIssue)) || '';
+    const jira = await getJira(context);
+    if (!jira) {
+      // Jira is not configured for this project, do nothing
+      return;
+    }
+    const issue = await jira.getCachedIssue(context);
     if (!issue) {
       app.log.warn('Cannot update assignee, no issue associated.');
       return;
     }
-    const jira = await getJira(context);
-    if (!jira) {
-      return;
-    }
+
+    // Lookup GH login in the configured user map, or fall back to searching for a match for the login directly
     const jiraUsers = await jira.fetch(`user/search?query=${jira.userMap[login] || login}`);
     if (jiraUsers.length !== 1) {
+      // If there's not exactly one match, consider it a failure
       await writeComment(
         context,
         `Could not update assignee for ${jira.issueLinkMd(
           issue,
         )}, user mapping required for \`${login}\`. Please update manually.`,
       );
+      return;
     }
     const [{ accountId, displayName }] = jiraUsers;
+
+    // Set the Jira assignee
     try {
       await jira.fetch(`issue/${issue}/assignee`, {
         method: 'PUT',
