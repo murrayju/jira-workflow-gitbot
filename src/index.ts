@@ -91,7 +91,7 @@ export = (app: Probot) => {
           `Successfully linked this PR to Jira: ${jira.issueLinkMd(detectedIssue)}`,
         );
       } catch (err) {
-        app.log.debug('Error contacting Jira, consider issue not found', err);
+        app.log.debug(`Error contacting Jira, consider issue not found: ${err.message}`);
         await writeComment(
           context,
           `The specified issue \`${detectedIssue}\` could not be found in Jira.`,
@@ -113,9 +113,11 @@ export = (app: Probot) => {
    */
   app.on('pull_request.assigned', async (context) => {
     await logEvent(context);
-    const login = context.payload.pull_request.assignee?.login;
+    const { assignee, assignees } = context.payload.pull_request;
+    const login = assignee?.login || assignees?.[0]?.login;
     if (!login) {
       app.log.warn('Unexpected, login is empty');
+      app.log.debug(JSON.stringify({ assignee, assignees }));
       return;
     }
 
@@ -131,8 +133,23 @@ export = (app: Probot) => {
     }
 
     // Lookup GH login in the configured user map, or fall back to searching for a match for the login directly
-    const jiraUsers = await jira.fetch(`user/search?query=${jira.userMap[login] || login}`);
-    if (jiraUsers.length !== 1) {
+    const targetUser = jira.userMap[login] || login;
+    // Try an exact match
+    let jiraUser = null;
+
+    try {
+      jiraUser = await jira.fetch(`user?username=${targetUser}`);
+    } catch (err) {
+      app.log.warn(`No exact match for Jira user '${targetUser}', trying search`);
+      const jiraUsers = await jira.fetch(`user/search?query=${targetUser}&username=${targetUser}`);
+      if (jiraUsers.length !== 1) {
+        app.log.debug(JSON.stringify({ targetUser, userMap: jira.userMap, jiraUsers }));
+        jiraUser = null;
+      } else {
+        jiraUser = jiraUsers[0];
+      }
+    }
+    if (!jiraUser) {
       // If there's not exactly one match, consider it a failure
       await writeComment(
         context,
@@ -142,17 +159,16 @@ export = (app: Probot) => {
       );
       return;
     }
-    const [{ accountId, displayName }] = jiraUsers;
 
     // Set the Jira assignee
     try {
       await jira.fetch(`issue/${issue}/assignee`, {
         method: 'PUT',
-        body: JSON.stringify({ accountId }),
+        body: JSON.stringify(jiraUser),
       });
       await writeComment(
         context,
-        `Jira ticket ${jira.issueLinkMd(issue)} has been assigned to ${displayName}`,
+        `Jira ticket ${jira.issueLinkMd(issue)} has been assigned to ${jiraUser.displayName}`,
       );
     } catch (err) {
       app.log.error(`Failed to call Jira issue assign: ${err.message}`);
