@@ -6,6 +6,7 @@ COPY . .
 RUN [ "npm", "run", "build" ]
 
 FROM node:14-slim as prod
+LABEL org.opencontainers.image.source https://github.com/murrayju/jira-workflow-gitbot
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm ci --production && npm cache clean --force
