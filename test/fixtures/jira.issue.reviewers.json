@@ -1,0 +1,228 @@
+{
+  "expand": "renderedFields,names,schema,operations,editmeta,changelog,versionedRepresentations",
+  "id": "506646",
+  "self": "https://fake-jira/rest/api/2/issue/506646",
+  "key": "TEST-7",
+  "fields": {
+    "resolution": null,
+    "lastViewed": null,
+    "aggregatetimeoriginalestimate": null,
+    "issuelinks": [],
+    "subtasks": [],
+    "issuetype": {
+      "self": "https://fake-jira/rest/api/2/issuetype/83",
+      "id": "83",
+      "description": "A user story.",
+      "iconUrl": "https://fake-jira/secure/viewavatar?size=xsmall&avatarId=13405&avatarType=issuetype",
+      "name": "Story",
+      "subtask": false,
+      "avatarId": 13405
+    },
+    "customfield_11321": [
+      {
+        "self": "https://fake-jira/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@test.com",
+        "avatarUrls": {
+          "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+          "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+          "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+          "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "America/New_York"
+      }
+    ],
+    "timeestimate": null,
+    "aggregatetimespent": null,
+    "workratio": -1,
+    "labels": [],
+    "reporter": {
+      "self": "https://fake-jira/rest/api/2/user?username=testuser",
+      "name": "testuser",
+      "key": "testuser",
+      "emailAddress": "testuser@test.com",
+      "avatarUrls": {
+        "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+        "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+        "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+        "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+      },
+      "displayName": "Test User",
+      "active": true,
+      "timeZone": "America/New_York"
+    },
+    "watches": {
+      "self": "https://fake-jira/rest/api/2/issue/JUS-11/watchers",
+      "watchCount": 2,
+      "isWatching": true
+    },
+    "updated": "2021-02-20T20:56:09.000-0500",
+    "timeoriginalestimate": null,
+    "description": null,
+    "fixVersions": [],
+    "priority": {
+      "self": "https://fake-jira/rest/api/2/priority/10000",
+      "iconUrl": "https://fake-jira/images/icons/priorities/thinLine.png",
+      "name": "Unspecified",
+      "id": "10000"
+    },
+    "created": "2021-02-20T14:59:05.000-0500",
+    "attachment": [],
+    "assignee": {
+      "self": "https://fake-jira/rest/api/2/user?username=testuser",
+      "name": "testuser",
+      "key": "testuser",
+      "emailAddress": "testuser@test.com",
+      "avatarUrls": {
+        "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+        "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+        "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+        "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+      },
+      "displayName": "Test User",
+      "active": true,
+      "timeZone": "America/New_York"
+    },
+    "votes": {
+      "self": "https://fake-jira/rest/api/2/issue/JUS-11/votes",
+      "votes": 0,
+      "hasVoted": false
+    },
+    "worklog": { "startAt": 0, "maxResults": 20, "total": 0, "worklogs": [] },
+    "duedate": null,
+    "status": {
+      "self": "https://fake-jira/rest/api/2/status/10033",
+      "description": "This issue is undergoing code review",
+      "iconUrl": "https://fake-jira/images/icons/statuses/inprogress.png",
+      "name": "Code Review",
+      "id": "10033",
+      "statusCategory": {
+        "self": "https://fake-jira/rest/api/2/statuscategory/4",
+        "id": 4,
+        "key": "indeterminate",
+        "colorName": "yellow",
+        "name": "In Progress"
+      }
+    },
+    "aggregatetimeestimate": null,
+    "creator": {
+      "self": "https://fake-jira/rest/api/2/user?username=testuser",
+      "name": "testuser",
+      "key": "testuser",
+      "emailAddress": "testuser@test.com",
+      "avatarUrls": {
+        "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+        "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+        "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+        "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+      },
+      "displayName": "Test User",
+      "active": true,
+      "timeZone": "America/New_York"
+    },
+    "timespent": null,
+    "components": [],
+    "progress": { "progress": 0, "total": 0 },
+    "project": {
+      "self": "https://fake-jira/rest/api/2/project/18560",
+      "id": "18560",
+      "key": "JUS",
+      "name": "JustinMurrayTEST",
+      "projectTypeKey": "software",
+      "avatarUrls": {
+        "48x48": "https://fake-jira/secure/projectavatar?avatarId=16493",
+        "24x24": "https://fake-jira/secure/projectavatar?size=small&avatarId=16493",
+        "16x16": "https://fake-jira/secure/projectavatar?size=xsmall&avatarId=16493",
+        "32x32": "https://fake-jira/secure/projectavatar?size=medium&avatarId=16493"
+      }
+    },
+    "resolutiondate": null,
+    "summary": "A feature example",
+    "comment": {
+      "comments": [
+        {
+          "self": "https://fake-jira/rest/api/2/issue/506646/comment/1643091",
+          "id": "1643091",
+          "author": {
+            "self": "https://fake-jira/rest/api/2/user?username=testuser",
+            "name": "testuser",
+            "key": "testuser",
+            "emailAddress": "testuser@test.com",
+            "avatarUrls": {
+              "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+              "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+              "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+              "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+            },
+            "displayName": "Test User",
+            "active": true,
+            "timeZone": "America/New_York"
+          },
+          "body": "Just commenting",
+          "updateAuthor": {
+            "self": "https://fake-jira/rest/api/2/user?username=testuser",
+            "name": "testuser",
+            "key": "testuser",
+            "emailAddress": "testuser@test.com",
+            "avatarUrls": {
+              "48x48": "https://fake-jira/secure/useravatar?ownerId=testuser&avatarId=17498",
+              "24x24": "https://fake-jira/secure/useravatar?size=small&ownerId=testuser&avatarId=17498",
+              "16x16": "https://fake-jira/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=17498",
+              "32x32": "https://fake-jira/secure/useravatar?size=medium&ownerId=testuser&avatarId=17498"
+            },
+            "displayName": "Test User",
+            "active": true,
+            "timeZone": "America/New_York"
+          },
+          "created": "2021-02-20T19:25:28.000-0500",
+          "updated": "2021-02-20T19:25:28.000-0500"
+        },
+        {
+          "self": "https://fake-jira/rest/api/2/issue/506646/comment/1643093",
+          "id": "1643093",
+          "author": {
+            "self": "https://fake-jira/rest/api/2/user?username=git.bot",
+            "name": "git.bot",
+            "key": "JIRAUSER22019",
+            "emailAddress": "testuser@test.com",
+            "avatarUrls": {
+              "48x48": "https://fake-jira/secure/useravatar?avatarId=16510",
+              "24x24": "https://fake-jira/secure/useravatar?size=small&avatarId=16510",
+              "16x16": "https://fake-jira/secure/useravatar?size=xsmall&avatarId=16510",
+              "32x32": "https://fake-jira/secure/useravatar?size=medium&avatarId=16510"
+            },
+            "displayName": "Git Bot",
+            "active": true,
+            "timeZone": "America/New_York"
+          },
+          "body": "Linked to GitHub PR [#2 - I've done something|https://github.test.com/fa/test-repo/pull/2]\n----\nThis is _very_ neat. Inline {{code}} thingy.\n\nh3. Subheading\n* thing 1\n* thing 2\n\n``{{\nHere's some code\n}}``\n\n\n",
+          "updateAuthor": {
+            "self": "https://fake-jira/rest/api/2/user?username=git.bot",
+            "name": "git.bot",
+            "key": "JIRAUSER22019",
+            "emailAddress": "testuser@test.com",
+            "avatarUrls": {
+              "48x48": "https://fake-jira/secure/useravatar?avatarId=16510",
+              "24x24": "https://fake-jira/secure/useravatar?size=small&avatarId=16510",
+              "16x16": "https://fake-jira/secure/useravatar?size=xsmall&avatarId=16510",
+              "32x32": "https://fake-jira/secure/useravatar?size=medium&avatarId=16510"
+            },
+            "displayName": "Git Bot",
+            "active": true,
+            "timeZone": "America/New_York"
+          },
+          "created": "2021-02-20T20:46:12.000-0500",
+          "updated": "2021-02-20T20:46:12.000-0500"
+        }
+      ],
+      "maxResults": 2,
+      "total": 2,
+      "startAt": 0
+    },
+    "versions": [],
+    "aggregateprogress": { "progress": 0, "total": 0 }
+  }
+}

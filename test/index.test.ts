@@ -90,17 +90,23 @@ describe('Probot app', () => {
 
     const jiraMock = nock('https://fake-jira')
       // get the issue details
-      .get('/rest/api/latest/issue/TEST-7?expand=&fields=*all&properties=*all&fieldsByKeys=false')
+      .get('/rest/api/latest/issue/TEST-7')
       .reply(200, { id: 'jira123' })
       // get the existing links
-      .get('/rest/api/latest/issue/jira123/remotelink')
+      .get('/rest/api/latest/issue/TEST-7/remotelink')
       .reply(200, [])
       // create a new link
-      .post('/rest/api/latest/issue/jira123/remotelink', (body: any) => {
+      .post('/rest/api/latest/issue/TEST-7/remotelink', (body: any) => {
         expect(body).toMatchSnapshot();
         return true;
       })
-      .reply(200);
+      .reply(200, { id: 'link1' })
+      // create a new comment
+      .post('/rest/api/latest/issue/TEST-7/comment', (body: any) => {
+        expect(body).toMatchSnapshot();
+        return true;
+      })
+      .reply(200, { id: 'comment1' });
 
     // Receive a webhook event
     await probot.receive({ id: '1', name: 'pull_request', payload: prOpenedPayload });
@@ -136,7 +142,7 @@ describe('Probot app', () => {
 
     const jiraMock = nock('https://fake-jira')
       // get the issue details
-      .get('/rest/api/latest/issue/TEST-99?expand=&fields=*all&properties=*all&fieldsByKeys=false')
+      .get('/rest/api/latest/issue/TEST-99')
       .reply(404);
 
     // Receive a webhook event
@@ -215,7 +221,10 @@ describe('Probot app', () => {
       .reply(200);
 
     const jiraMock = nock('https://fake-jira')
-      // get the issue details
+      // attempt user lookup
+      .get('/rest/api/latest/user?username=testuser')
+      .reply(404)
+      // search for the user
       .get('/rest/api/latest/user/search?query=testuser&username=testuser')
       .reply(200, [{ accountId: 'jiraAccount123', displayName: 'Mr. Test User' }])
       // set the assignee

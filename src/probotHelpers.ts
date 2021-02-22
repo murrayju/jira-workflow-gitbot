@@ -1,5 +1,4 @@
 import { Context } from 'probot';
-import JiraApi from 'jira-client';
 import fetch, { RequestInit } from 'node-fetch';
 import fs from 'fs-extra';
 const metadata = require('probot-metadata');
@@ -31,6 +30,9 @@ export const getJiraCfg = async (context: Context) => {
     projectKey: '',
     apiVersion: 'latest',
     userMap: {} as { [gitHubUser: string]: string },
+    fields: {
+      reviewers: '',
+    },
   };
   const config = await context.config('jira.yml', {
     jira: defaults,
@@ -56,13 +58,6 @@ export const getJira = async (context: Context) => {
   }
   const username = process.env.JIRA_USER;
   const password = process.env.JIRA_PASS;
-  const api = new JiraApi({
-    host,
-    protocol,
-    username,
-    password,
-    apiVersion,
-  });
 
   const url = `${protocol}://${host}`;
   const issuePrefixRegex = new RegExp(
@@ -72,10 +67,10 @@ export const getJira = async (context: Context) => {
 
   return {
     ...rest,
+    username,
     host,
     protocol,
     projectKey,
-    api,
     url,
     issuePrefixRegex,
 
@@ -140,6 +135,116 @@ export const getJira = async (context: Context) => {
      */
     setCachedIssue: async (context: Context, issue: string) =>
       metadata(context).set(metaKey_jiraIssue, issue),
+
+    /**
+     * Gets Jira issue detail, null if not found
+     * @param context a Probot event Context
+     * @param issue the Jira issue key string
+     */
+    async getIssueDetail(context: Context, issue: string) {
+      try {
+        return await this.fetch(`issue/${issue}`);
+      } catch (err) {
+        context.log.debug(`Jira issue key '${issue}' not found.`);
+        return null;
+      }
+    },
+
+    /**
+     * Set the jira issue assignee to match the given github login
+     * @param context a Probot event Context
+     * @param issue the Jira issue key string
+     * @param login the GitHub username
+     */
+    async setAssignee(context: Context, issue: string, login: string) {
+      // Lookup GH login in the configured user map, or fall back to searching for a match for the login directly
+      const targetUser = this.userMap[login] || login;
+      // Try an exact match
+      let jiraUser = null;
+
+      try {
+        jiraUser = await this.fetch(`user?username=${targetUser}`);
+      } catch (err) {
+        context.log.warn(`No exact match for Jira user '${targetUser}', trying search`);
+        const jiraUsers = await this.fetch(
+          `user/search?query=${targetUser}&username=${targetUser}`,
+        );
+        if (jiraUsers.length !== 1) {
+          context.log.debug(JSON.stringify({ targetUser, userMap: this.userMap, jiraUsers }));
+          jiraUser = null;
+        } else {
+          jiraUser = jiraUsers[0];
+        }
+      }
+      if (!jiraUser) {
+        // If there's not exactly one match, consider it a failure
+        await writeComment(
+          context,
+          `Could not update assignee for ${this.issueLinkMd(
+            issue,
+          )}, user mapping required for \`${login}\`. Please update manually.`,
+        );
+        return;
+      }
+
+      // Set the Jira assignee
+      try {
+        await this.fetch(`issue/${issue}/assignee`, {
+          method: 'PUT',
+          body: JSON.stringify(jiraUser),
+        });
+        await writeComment(
+          context,
+          `Jira ticket ${this.issueLinkMd(issue)} has been assigned to ${jiraUser.displayName}`,
+        );
+      } catch (err) {
+        context.log.error(`Failed to call Jira issue assign: ${err.message}`);
+        await writeComment(
+          context,
+          `Warning: failed to update assignee for ${this.issueLinkMd(
+            issue,
+          )}, please update manually.`,
+        );
+      }
+    },
+
+    /**
+     * Set the jira issue reviewers to match the given github logins
+     * @param context a Probot event Context
+     * @param issue the Jira issue key string
+     * @param logins the GitHub usernames
+     */
+    async setReviewers(context: Context, issue: string, logins: string[]) {
+      if (!this.fields?.reviewers) {
+        context.log.warn('Jira reviewers field not configured, skipping');
+        return;
+      }
+      try {
+        await this.fetch(`issue/${issue}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            fields: {
+              [this.fields.reviewers]: logins
+                .map((r) => this.userMap[r])
+                .filter((u) => !!u)
+                .map((name) => ({ name })),
+            },
+          }),
+        });
+      } catch (err) {
+        context.log.error(`Failed to set Jira reviewers: ${err.message}`);
+        await writeComment(
+          context,
+          `Warning: failed to update reviewers for ${this.issueLinkMd(
+            issue,
+          )}, please update manually.`,
+        );
+      }
+    },
+
+    toGitHubUser(jiraUser: string): null | string {
+      return Object.entries(this.userMap).find(([, j]) => j === jiraUser)?.[0] || null;
+    },
   };
 };
 
@@ -154,3 +259,12 @@ export const writeComment = async (context: Context, comment: string) =>
       body: comment,
     }),
   );
+
+/**
+ * Helper to extract the primary assignee from a pull_request payload
+ * @param context a Probot event Context
+ */
+export const getPrAssignee = (context: Context): string | null => {
+  const { assignee, assignees } = context.payload.pull_request;
+  return assignee?.login || assignees?.[0]?.login || null;
+};
