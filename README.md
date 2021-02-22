@@ -9,8 +9,8 @@ When using Jira as the issue tracker for a project in combination with using Git
 - [x] When an issue is created in GitHub, comment that issues should be created in Jira instead.
 - [x] When a PR title is prefixed with a Jira ticket number, the bot should write a comment to indicate that the PR has been linked with the Jira ticket. _This is a prerequisite for all subsequent stories._
 - [x] When a PR is assigned to a user, the `Assignee` field on the Jira ticket should be updated to match.
-- [ ] When a reviewer is added to a PR, the `Reviewer` field on the Jira ticket should be updated to include this user.
-- [ ] When a reviewer is removed from a PR, the `Reviewer` field on the Jira ticket should be updated to exclude this user.
+- [x] When a reviewer is added to a PR, the `Reviewer` field on the Jira ticket should be updated to include this user.
+- [x] When a reviewer is removed from a PR, the `Reviewer` field on the Jira ticket should be updated to exclude this user.
 - [ ] When a reviewer requests changes, the Jira ticket should be transitioned back to `In Progress`
 - [ ] When a PR is merged, the Jira ticket should be transitioned to `Resolved`
 
@@ -24,9 +24,69 @@ When using Jira as the issue tracker for a project in combination with using Git
     * Define the Jira project URL
 
 ## Deployment
-* Use [Glitch](https://glitch.com/) to host the application in the cloud
+* Use the [docker image](https://github.com/users/murrayju/packages/container/package/jira-workflow-gitbot) to deploy to the location of your choice
 
-## Setup
+### Environment Variables
+Some configuration is expected to be set as environment variables for the docker container when run.
+
+| variable | required | description |
+| --- | --- | --- |
+| APP_ID | true | The ID of the GitHub App |
+| PRIVATE_KEY | true | The private key of the GitHub App |
+| WEBHOOK_SECRET | true | Secret value passed by GitHub to the webhook |
+| JIRA_USER | true | Username used to communicate with the Jira API |
+| JIRA_PASS | true | Password used to communicate with the Jira API |
+| GHE_HOST | false | Hostname for GitHub enterprise instance (defaults to github.com) |
+| LOG_LEVEL | false | Override for logging |
+
+### Repo configuration
+Project specific configuration is read directly from the GitHub repo.
+Put your config file in `.github/jira.yml`
+
+#### Defaults
+```yml
+---
+jira:
+  # Host for the Jira API
+  host: ''
+  # Protocol for the Jira API
+  protocol: https
+  # Jira API version
+  apiVersion: latest
+  # Jira project key to associate with this GitHub project
+  projectKey: ''
+  # Map of custom field ids
+  fields:
+    # Field for assigning a list of reviewers
+    reviewers: ''
+  # Map from GitHub username to Jira username
+  # This is optional if the usernames are the same
+  userMap: {}
+```
+
+#### Example
+It can be very helpful to put shared configuration in the organization level `.github` repo (still under `.github/jira.yml`):
+```yml
+---
+jira:
+  host: jira.mycompany.com
+  apiVersion: 2
+  fields:
+    reviewers: customfield_11234
+  userMap:
+    ghUserA: jiraUser1
+    ghUserB: jiraUser2
+```
+
+Then in your project repo, you can extend this with only the project specific properties:
+
+```yml
+---
+_extends: .github
+jira:
+  projectKey: PROJ
+```
+## Dev Setup
 
 ```sh
 # Install dependencies
