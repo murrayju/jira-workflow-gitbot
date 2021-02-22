@@ -60,6 +60,7 @@ Object {
 exports[`Probot app when PR assigned, updates Jira assignee 1`] = `
 Object {
   "accountId": "jiraAccount123",
+  "displayName": "Mr. Test User",
 }
 `;
 

@@ -216,7 +216,7 @@ describe('Probot app', () => {
 
     const jiraMock = nock('https://fake-jira')
       // get the issue details
-      .get('/rest/api/latest/user/search?query=testuser')
+      .get('/rest/api/latest/user/search?query=testuser&username=testuser')
       .reply(200, [{ accountId: 'jiraAccount123', displayName: 'Mr. Test User' }])
       // set the assignee
       .put('/rest/api/latest/issue/TEST-1/assignee', (body: any) => {
